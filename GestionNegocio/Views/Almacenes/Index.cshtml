@@ -1,0 +1,76 @@
+﻿@{
+    int i = 1;
+}
+
+<!-- contenido -->
+<nav class="navbar navbar-default" style="margin-top: 0px">
+    <div class="container">
+        <ul class="nav navbar-nav" id="barLeft">
+            <li><a href="/Panel" onclick="loadPage();"><i class="fas fa-columns"></i> Panel Principal</a></li>
+            <li><a href="/Almacenes/nuevoAlmacen" onclick="loadPage();"><i class="fas fa-plus-circle"></i> Agregar nuevo almacen</a></li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+            <li align="right" id="btnHide"><a href="#" onclick="hideBarLeft()"><i class="fas fa-sort-up"></i> Ocultar </a></li>
+            <li align="right" id="btnShow" style="display:none"><a href="#" onclick="showBarLeft()"><i class="fas fa-sort-down"></i> Mostrar </a></li>
+        </ul>
+    </div>
+</nav>
+
+<div class="container">
+    <div class="panel panel-default">
+        <div class="panel-heading"><i class="fas fa-clipboard-list"></i> Lista de Almacenes </div>
+        <div class="panel-body">
+            <p>&nbsp;</p>
+            <div id="alamacenes">
+                <div class="form-inline" align="right"><label style="color:#636e72"> <i class="fas fa-search"></i> Filtrar: &nbsp;&nbsp;</label><input class="search form-control" placeholder="Busqueda en la lista" style="width:90%" /></div>
+                <br />
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Nombre de almacen</th>
+                                <th>Direccion</th>
+                                <th>Telefono</th>
+                                <th>Estado</th>
+                                <th>Fecha de registro</th>
+                                <th>Fecha de modificacion</th>
+                                <th><center>Actualizar</center></th>
+                            </tr>
+                        </thead>
+                        <tbody class="list">
+                            @foreach (var dato in ViewBag.almacenes)
+                            {
+                                <tr>
+                                    <td class="num">@i</td>
+                                    <td class="nom">@dato.nombre</td>
+                                    <td class="dir">@dato.direccion</td>
+                                    <td>@dato.telefono</td>
+                                    <td>@dato.estado.descripcion</td>
+                                    <td>@dato.fechaRegistro</td>
+                                    <td>@dato.fechaModificacion</td>
+                                    <td align="center"><a class="btn btn-default" href="/Almacenes/actualizaAlmacen/?ident=@dato.idAlmacen " role="button" onclick="loadPage()"> <i class="fas fa-pencil-alt"></i></a></td>
+                                </tr>
+                                i++;
+                            }
+                        </tbody>
+                    </table>
+                </div>
+                <div align="right"><ul class="pagination"></ul></div>
+            </div>
+
+
+        </div>
+    </div>
+</div>
+
+
+<script>
+    var options = {
+        valueNames: ['num','nom','dir'],
+        page: 10,
+        pagination: true
+    };
+    var userList = new List('alamacenes', options);
+</script>
+

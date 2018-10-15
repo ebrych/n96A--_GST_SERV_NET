@@ -1,0 +1,183 @@
+﻿@{
+    int i = 1;
+    string displayCompra = "none";
+    string displayOrdenPedido = "none";
+    if (ViewBag.idTipo == 1)
+    {
+        displayCompra = "block";
+    }
+    if(ViewBag.idTipo == 2)
+    {
+        displayOrdenPedido = "block";
+    }
+}
+<!-- contenido -->
+<nav class="navbar navbar-default" style="margin-top: 0px">
+    <div class="container">
+        <ul class="nav navbar-nav" id="barLeft">
+            <li><a href="/Panel" onclick="loadPage();"><i class="fas fa-columns"></i> Panel Principal</a></li>
+            <li><a href="/Notas" onclick="loadPage();"><i class="fas fa-arrow-alt-circle-left"></i> Regresar a Notas</a></li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+            <li align="right" id="btnHide"><a href="#" onclick="hideBarLeft()"><i class="fas fa-sort-up"></i> Ocultar </a></li>
+            <li align="right" id="btnShow" style="display:none"><a href="#" onclick="showBarLeft()"><i class="fas fa-sort-down"></i> Mostrar </a></li>
+        </ul>
+    </div>
+</nav>
+
+<div class="container">
+    <div class="panel panel-default">
+        <div class="panel-heading"><i class="fas fa-clipboard-list"></i> Agregar Detalle</div>
+        <div class="panel-body">
+
+            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                <form action="/Notas/agregaDetalle" method="post" onsubmit="loadPage()">
+
+                    <input type="text" class="form-control" name="idNota" value="@ViewBag.nota" style="display:none" required>
+                    <label>Material</label><br />
+                    <select class="selectpicker" data-live-search="true" name="mat" required>
+                        @foreach (var dato in ViewBag.listaMaterial)
+                        {
+                            <option value="@dato.idMaterial"> @dato.descripcion </option>
+                        }
+                    </select><br />
+                    <label>Cantidad</label>
+                    <input type="text" class="form-control" name="cant" required>
+                    <br />
+                    <button type="submit" class="btn btn-default">Agregar Detalle</button>
+                </form>
+            </div>
+            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                <!-- listas detalle compra-->
+                <div id="DetalleCompra" style="display:@displayCompra">
+                    <div align="right"><h3>Ordenes de Compra</h3></div>
+                    <br />
+                    <table id="table_Usuarios" class="table table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Material</th>
+                                <th>Cantidad</th>
+                            </tr>
+                        </thead>
+                        <tbody class="list">
+                            @if (ViewBag.detalleCompra != null)
+                            {
+                                foreach (var dato in ViewBag.detalleCompra)
+                                {
+                                    <tr>
+                                        <td class="num">@i</td>
+                                        <td class="mat">@dato.material.descripcion</td>
+                                        <td>@dato.cantidad</td>
+                                    </tr>
+                                    i++;
+                                }
+                            }
+                            
+                        </tbody>
+                    </table>
+                    <div align="right"><ul class="pagination"></ul></div>
+                </div>
+                <!-- listas-->
+                <!-- listas detalle orden de pedido-->
+                <div id="DetalleOrdenPedido" style="display:@displayOrdenPedido">
+                    <div align="right"><h3>Ordenes de Pedido</h3></div>
+                    <br />
+                    <table id="table_Usuarios" class="table table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Material</th>
+                                <th>Cantidad</th>
+                              
+                            </tr>
+                        </thead>
+                        <tbody class="list">
+                            @if (ViewBag.detalleOrdenPedido != null)
+                            {
+                                foreach (var dato in ViewBag.detalleOrdenPedido)
+                                {
+                                    <tr>
+                                        <td class="num">@i</td>
+                                        <td class="desc">@dato.material.descripcion</td>
+                                        <td>@dato.cantidad</td>
+
+                                    </tr>
+                                    i++;
+                                }
+                            }
+                            
+                        </tbody>
+                    </table>
+                    <div align="right"><ul class="pagination"></ul></div>
+                </div>
+
+                <!-- listas-->
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="panel panel-default">
+        <div class="panel-heading"><i class="fas fa-clipboard-list"></i> Lista de Elementos</div>
+        <div class="panel-body">
+
+            <div id="Nota">
+                <div class="form-inline" align="right"><label style="color:#636e72"> <i class="fas fa-search"></i> Filtrar: &nbsp;&nbsp;</label><input class="search form-control" placeholder="Busqueda en la lista" style="width:90%" /></div>
+                <br />
+                <table id="table_Usuarios" class="table table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Material</th>
+                            <th>Fecha Registro</th>
+                            <th>Cantidad</th>
+                            <th><center>Eliminar</center></th>
+                        </tr>
+                    </thead>
+                    <tbody class="list">
+                        @foreach (var dato in ViewBag.listaDetalle)
+                        {
+                            <tr>
+                                <td class="num">@i</td>
+                                <td class="desc">@dato.material.descripcion</td>
+                                <td>@dato.fechaRegistro</td>
+                                <td>@dato.Cantidad</td>
+                                <td align="center"><a class="btn btn-danger" href="/Notas/elimnaDetalle/?idDetalle=@dato.idDetalleNota" role="button"><i class="fas fa-trash-alt"></i></a></td>
+                            </tr>
+                            i++;
+                        }
+                    </tbody>
+                </table>
+                <div align="right"><ul class="pagination"></ul></div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<script>
+    var options = {
+        valueNames: ['num', 'desc'],
+        page: 10,
+        pagination: true
+    };
+    var userList = new List('Nota', options);
+
+
+    var optionsDetalleCompra = {
+        valueNames: ['num', 'desc'],
+        page: 3,
+        pagination: true
+    }
+    var compraList = new List('DetalleCompra', optionsDetalleCompra);
+
+    var optionDetalleOrdenPedido = {
+        valueNames: ['num', 'desc'],
+        page: 3,
+        pagination: true
+    }
+    var ordenPedidoList = new List('DetalleOrdenPedido', optionDetalleOrdenPedido);
+
+</script>
+

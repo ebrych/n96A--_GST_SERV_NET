@@ -1,0 +1,83 @@
+﻿
+@{
+    int i = 1;
+}
+
+<!-- contenido -->
+<nav class="navbar navbar-default" style="margin-top: 0px">
+    <div class="container">
+        <ul class="nav navbar-nav" id="barLeft">
+            <li><a href="/Panel" onclick="loadPage();"><i class="fas fa-columns"></i> Panel Principal</a></li>
+            <li><a href="/Clientes/nuevoCliente" onclick="loadPage();"><i class="fas fa-plus-circle"></i> Agregar nuevo cliente</a></li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+            <li align="right" id="btnHide"><a href="#" onclick="hideBarLeft()"><i class="fas fa-sort-up"></i> Ocultar </a></li>
+            <li align="right" id="btnShow" style="display:none"><a href="#" onclick="showBarLeft()"><i class="fas fa-sort-down"></i> Mostrar </a></li>
+        </ul>
+    </div>
+</nav>
+
+<div class="container">
+    <div class="panel panel-default">
+        <div class="panel-heading"><i class="fas fa-clipboard-list"></i> Lista de Elementos</div>
+        <div class="panel-body">
+
+            <div id="clientes">
+                <div class="form-inline" align="right"><label style="color:#636e72"> <i class="fas fa-search"></i> Filtrar: &nbsp;&nbsp;</label><input class="search form-control" placeholder="Busqueda en la lista" style="width:90%" /></div>
+                <br />
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Nombres</th>
+                                <th>Documento</th>
+                                <th>Número</th>
+                                <th>Teléfono</th>
+                                <th>Celular</th>
+                                <th>Direccion</th>
+                                <th>Mail</th>
+                                <th>Tipo</th>
+                                <th>Estado</th>
+                                <th><center>Actualizar</center></th>
+                            </tr>
+                        </thead>
+                        <tbody class="list">
+                            @foreach (var dato in ViewBag.Cliente)
+                            {
+                                <tr>
+                                    <td>@i</td>
+                                    <td class="nom">@dato.nombres @dato.primerApellido @dato.segundoApellido</td>
+                                    <td>@dato.tipoDocumento</td>
+                                    <td class="numDoc">@dato.numeroDocumento</td>
+                                    <td>@dato.telefono</td>
+                                    <td>@dato.direccion</td>
+                                    <td>@dato.celular</td>
+                                    <td>@dato.mail</td>
+                                    <td class="tpo">@dato.tipo.descripcion</td>
+                                    <td>@dato.estado.descripcion</td>
+                                    <td align="center"><a class="btn btn-default" href="/Clientes/actualizaCliente/?idcli=@dato.idCliente " role="button"> <i class="fas fa-pencil-alt"></i></a></td>
+                                </tr>
+                                i++;
+                            }
+                        </tbody>
+                    </table>
+                </div>
+                <div align="right"><ul class="pagination"></ul></div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+<script>
+    var options = {
+        valueNames: ['nom', 'numDoc', 'tpo'],
+        page: 10,
+        pagination: true
+    };
+    var userList = new List('clientes', options);
+</script>
+
+

@@ -1,0 +1,90 @@
+﻿
+@{
+    int i = 1;
+}
+<!-- contenido -->
+<nav class="navbar navbar-default" style="margin-top: 0px">
+    <div class="container">
+        <ul class="nav navbar-nav" id="barLeft">
+            <li><a href="/Panel" onclick="loadPage();"><i class="fas fa-columns"></i> Panel Principal</a></li>
+            <li><a href="/Permisos" onclick="loadPage();"><i class="fas fa-arrow-alt-circle-left"></i> Regresar Permisos</a></li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+            <li align="right" id="btnHide"><a href="#" onclick="hideBarLeft()"><i class="fas fa-sort-up"></i> Ocultar </a></li>
+            <li align="right" id="btnShow" style="display:none"><a href="#" onclick="showBarLeft()"><i class="fas fa-sort-down"></i> Mostrar </a></li>
+        </ul>
+    </div>
+</nav>
+
+<div class="container">
+    <div class="panel panel-default">
+        <div class="panel-heading"><i class="fas fa-plus"></i> Agregar Modulo</div>
+        <div class="panel-body">
+
+            <form action="/Permisos/agregaModulo" method="post" onsubmit="loadPage()">
+
+                <input type="text" class="form-control" name="idRol" value="@ViewBag.role" style="display:none" required>
+                <label>Modulo</label><br />
+                <select class="selectpicker" data-live-search="true" name="idMod" required>
+                    @foreach (var dato in ViewBag.modulos)
+                    {
+                        <option value="@dato.idModulo"> @dato.descripcion </option>
+                    }
+                </select><br />
+                <br />
+                <button type="submit" class="btn btn-default">Agregar Modulo</button>
+            </form>
+
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="panel panel-default">
+        <div class="panel-heading"><i class="fas fa-clipboard-list"></i> Lista de Elementos</div>
+        <div class="panel-body">
+
+            <div id="Permisos">
+                <div class="form-inline" align="right"><label style="color:#636e72"> <i class="fas fa-search"></i> Filtrar: &nbsp;&nbsp;</label><input class="search form-control" placeholder="Busqueda en la lista" style="width:90%" /></div>
+                <br />
+                <table id="table_Usuarios" class="table table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Titulo</th>
+                            <th>Descripcion</th>
+                            <th>Modulo</th>
+                            <th><center>Eliminar</center></th>
+                        </tr>
+                    </thead>
+                    <tbody class="list">
+                        @foreach (var dato in ViewBag.modulosRole)
+                        {
+                            <tr>
+                                <td class="num">@i</td>
+                                <td class="desc">@dato.descripcion</td>
+                                <td class="tit">@dato.titulo</td>
+                                <td>@dato.controlador</td>
+                                <td align="center"><a class="btn btn-danger" href="/Permisos/eliminarModulo/?idModulo=@dato.idModulo&idRol=@ViewBag.role" role="button"><i class="fas fa-trash-alt"></i></a></td>
+                            </tr>
+                            i++;
+                        }
+                    </tbody>
+                </table>
+                <div align="right"><ul class="pagination"></ul></div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<script>
+    var options = {
+        valueNames: ['num', 'desc', 'tit'],
+        page: 10,
+        pagination: true
+    };
+    var userList = new List('Permisos', options);
+</script>
+
+
+

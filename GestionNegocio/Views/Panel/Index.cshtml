@@ -1,0 +1,20 @@
+﻿
+<!-- contenido -->
+<div class="container">
+    <p>&nbsp;</p>
+    <div class="row">
+        <div class="col-xs-12">
+            @foreach (var dato in ViewBag.modulos)
+            {
+                <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3" style="padding:10px;height:130px">
+                    <a href="/@dato.controlador" style="color:#333;text-decoration:none" onclick="loadPage()">
+                        <div class="well" align="center">
+                            <i class="@dato.icono" style="font-size:30px"></i><br /> @dato.titulo
+                        </div>
+                    </a>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+

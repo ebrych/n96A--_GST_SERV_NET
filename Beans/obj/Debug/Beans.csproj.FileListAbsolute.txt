@@ -1,0 +1,5 @@
+C:\Users\Eber Baldarrago\documents\visual studio 2015\Projects\GestionNegocio\Beans\bin\Debug\Beans.dll
+C:\Users\Eber Baldarrago\documents\visual studio 2015\Projects\GestionNegocio\Beans\bin\Debug\Beans.pdb
+C:\Users\Eber Baldarrago\documents\visual studio 2015\Projects\GestionNegocio\Beans\obj\Debug\Beans.csprojResolveAssemblyReference.cache
+C:\Users\Eber Baldarrago\documents\visual studio 2015\Projects\GestionNegocio\Beans\obj\Debug\Beans.dll
+C:\Users\Eber Baldarrago\documents\visual studio 2015\Projects\GestionNegocio\Beans\obj\Debug\Beans.pdb

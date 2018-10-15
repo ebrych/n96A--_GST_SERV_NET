@@ -1,0 +1,76 @@
+﻿@{
+    int i = 1;
+}
+<!-- contenido -->
+<nav class="navbar navbar-default" style="margin-top: 0px">
+    <div class="container">
+        <ul class="nav navbar-nav" id="barLeft">
+            <li><a href="/Panel" onclick="loadPage();"><i class="fas fa-columns"></i> Panel Principal</a></li>
+            <li><a href="/Personal/nuevoPersonal" onclick="loadPage();"><i class="fas fa-plus-circle"></i> Agregar nuevo Personal</a></li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+            <li align="right" id="btnHide"><a href="#" onclick="hideBarLeft()"><i class="fas fa-sort-up"></i> Ocultar </a></li>
+            <li align="right" id="btnShow" style="display:none"><a href="#" onclick="showBarLeft()"><i class="fas fa-sort-down"></i> Mostrar </a></li>
+        </ul>
+    </div>
+</nav>
+
+<div class="container">
+    <div class="panel panel-default">
+        <div class="panel-heading"><i class="fas fa-clipboard-list"></i> Lista de Personal</div>
+        <div class="panel-body">
+
+            <div id="Personal">
+                <div class="form-inline" align="right"><label style="color:#636e72"> <i class="fas fa-search"></i> Filtrar: &nbsp;&nbsp;</label><input class="search form-control" placeholder="Busqueda en la lista" style="width:90%" /></div>
+                <br />
+                <div class="table-responsive">
+                    <table id="table_Usuarios" class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th># <button class="sort" data-sort="num" style="background-color:transparent;border:0px"><span class="glyphicon glyphicon-sort" style="font-size:12px" aria-hidden="true"></span></button></th>
+                                <th>Nombres <button class="sort" data-sort="nom" style="background-color:transparent;border:0px"><span class="glyphicon glyphicon-sort" style="font-size:12px" aria-hidden="true"></span></button></th>
+                                <th>N° Documento</th>
+                                <th>Teléfono</th>
+                                <th>Direccion</th>
+                                <th>Correo electrónico</th>
+                                <th>Cargo</th>
+                                <th>Estado</th>
+                                <th><center>Actualizar</center></th>
+                            </tr>
+                        </thead>
+                        <tbody class="list">
+                            @foreach (var dato in ViewBag.personal)
+                            {
+                                <tr>
+                                    <td class="num">@i</td>
+                                    <td class="nom">@dato.nombres @dato.primerApellido @dato.segundoApellido</td>
+                                    <td class="doc">@dato.documento</td>
+                                    <td class="fono">@dato.telefono</td>
+                                    <td class="dir">@dato.direccion</td>
+                                    <td class="mail">@dato.mail</td>
+                                    <td>@dato.tipo.descripcion</td>
+                                    <td>@dato.estado.descripcion</td>
+                                    <td align="center"><a class="btn btn-default" href="/Personal/actualizaPersonal/?ident=@dato.idPersonal " role="button"> <i class="fas fa-pencil-alt"></i> </a></td>
+                                </tr>
+                                i++;
+                            }
+                        </tbody>
+                    </table>
+                </div>
+                <div align="right"><ul class="pagination"></ul></div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script>
+    var options = {
+        valueNames: ['num','nom','doc','fono','dir','mail'],
+		page: 10,
+        pagination: true
+    };
+    var userList = new List('Personal', options);
+</script>
+
+

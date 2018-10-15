@@ -1,0 +1,36 @@
+﻿<!-- contenido -->
+<nav class="navbar navbar-default" style="margin-top: 0px">
+    <div class="container">
+        <ul class="nav navbar-nav" id="barLeft">
+            <li><a href="/Panel" onclick="loadPage();"><i class="fas fa-columns"></i> Panel Principal</a></li>
+            <li><a href="/Compras" onclick="loadPage();"><i class="fas fa-arrow-alt-circle-left"></i> Regresar Negocio</a></li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+            <li align="right" id="btnHide"><a href="#" onclick="hideBarLeft()"><i class="fas fa-sort-up"></i> Ocultar </a></li>
+            <li align="right" id="btnShow" style="display:none"><a href="#" onclick="showBarLeft()"><i class="fas fa-sort-down"></i> Mostrar </a></li>
+        </ul>
+    </div>
+</nav>
+
+<div class="container">
+    <div class="panel panel-default">
+        <div class="panel-heading"><i class="fas fa-plus"></i> Nueva Compra</div>
+        <div class="panel-body">
+
+            <form action="/Compras/agregarCompra" method="post" onsubmit="loadPage()">
+                <label>Descripcion</label>
+                <input type="text" class="form-control" name="desc" placeholder="Descripcion" required>
+                <label>Proveedores</label><br />
+                <select class="selectpicker" data-live-search="true" name="prov" required>
+                    @foreach (var dato in ViewBag.proveedores)
+                    {
+                        <option value="@dato.idProveedor"> @dato.nombres @dato.primerApellido @dato.segundoApellido </option>
+                    }
+                </select><br />
+                <br />
+                <button type="submit" class="btn btn-default">Guardar Compra</button>
+            </form>
+
+        </div>
+    </div>
+</div>

@@ -1,0 +1,84 @@
+﻿
+
+@{
+    int i = 1;
+}
+<!-- contenido -->
+<nav class="navbar navbar-default" style="margin-top: 0px">
+    <div class="container">
+        <ul class="nav navbar-nav" id="barLeft">
+            <li><a href="/Panel" onclick="loadPage();"><i class="fas fa-columns"></i> Panel Principal</a></li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+            <li align="right" id="btnHide"><a href="#" onclick="hideBarLeft()"><i class="fas fa-sort-up"></i> Ocultar </a></li>
+            <li align="right" id="btnShow" style="display:none"><a href="#" onclick="showBarLeft()"><i class="fas fa-sort-down"></i> Mostrar </a></li>
+        </ul>
+    </div>
+</nav>
+
+<div class="container">
+    <div class="panel panel-default">
+        <div class="panel-heading"><i class="fas fa-clipboard-list"></i> Lista de Notas</div>
+        <div class="panel-body">
+
+            <div id="RespuestaNota">
+                <div class="form-inline" align="right"><label style="color:#636e72"> <i class="fas fa-search"></i> Filtrar: &nbsp;&nbsp;</label><input class="search form-control" placeholder="Busqueda en la lista" style="width:90%" /></div>
+                <br />
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Tipo</th>
+                                <th>Almacen</th>
+                                <th>descripcion</th>
+                                <th>Solicitante</th>
+                                <th>Usuario Respuesta</th>
+                                <th>Fecha Solicitud</th>
+                                <th>Fecha Respuesta</th>
+                                <th>Numero</th>
+                                <th>Estado</th>
+                                <th><center>Respuesta</center></th>
+                            </tr>
+                        </thead>
+                        <tbody class="list">
+                            @foreach (var dato in ViewBag.listaNotas)
+                            {
+                                <tr>
+                                    <td class="num">@i</td>
+                                    <td class="tDesc">@dato.tipo.descripcion</td>
+                                    <td class="nom">@dato.almacen.nombre</td>
+                                    <td>@dato.descripcion</td>
+                                    <td class="uSoli">@dato.userSolicita.nombres</td>
+                                    <td class="uResp">@dato.userResponde.nombres</td>
+                                    <td>@dato.FechaSolicitud</td>
+                                    <td>@dato.FechaRespuesta</td>
+                                    <td>@dato.referencia.idReferencia</td>
+                                    <td>@dato.estado.descripcion</td>
+                                    <td align="center"><a class="btn btn-default" href="/RespuestaNota/RespuestaNota/?idt=@dato.idNota" role="button"> <i class="fas fa-reply"></i> </a></td>
+                                </tr>
+                                i++;
+                            }
+                        </tbody>
+                    </table>
+                </div>
+                <div align="right"><ul class="pagination"></ul></div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script>
+    var options = {
+        valueNames: ['num','tDesc','nom','uSoli','uResp'],
+		page: 10,
+        pagination: true
+    };
+    var userList = new List('RespuestaNota', options);
+</script>
+
+
+
+
+

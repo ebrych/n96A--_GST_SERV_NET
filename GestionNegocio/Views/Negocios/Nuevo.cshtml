@@ -1,0 +1,63 @@
+﻿<!-- contenido -->
+<nav class="navbar navbar-default" style="margin-top: 0px">
+    <div class="container">
+        <ul class="nav navbar-nav" id="barLeft">
+            <li><a href="/Panel" onclick="loadPage();"><i class="fas fa-columns"></i> Panel Principal</a></li>
+            <li><a href="/Negocios" onclick="loadPage();"><i class="fas fa-arrow-alt-circle-left"></i> Regresar Negocio</a></li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+            <li align="right" id="btnHide"><a href="#" onclick="hideBarLeft()"><i class="fas fa-sort-up"></i> Ocultar </a></li>
+            <li align="right" id="btnShow" style="display:none"><a href="#" onclick="showBarLeft()"><i class="fas fa-sort-down"></i> Mostrar </a></li>
+        </ul>
+    </div>
+</nav>
+
+<div class="container">
+    <div class="panel panel-default">
+        <div class="panel-heading"><i class="fas fa-plus"></i> Nuevo Negocio</div>
+        <div class="panel-body">
+
+            <form action="/Negocios/insertaNuevo" method="post" onsubmit="loadPage()">
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                    <label>Nombre de negocio</label>
+                    <input type="text" class="form-control" name="nom" placeholder="Nombre del proyecto" required>
+
+                    <label>Responsable</label><br/>
+                    <select class="selectpicker" data-live-search="true" name="resp" required>
+                        @foreach (var dato in ViewBag.personal)
+                        {
+                            <option value="@dato.idPersonal"> @dato.nombres @dato.primerApellido @dato.segundoApellido </option>
+                        }
+                    </select><br />
+
+                    <label>Descripcion</label>
+                    <input type="text" class="form-control" name="desc" placeholder="Descripción" required>
+                    <label>Fecha inicio</label>
+                    <input type="text" class="form-control" name="feIn" placeholder="Fecha de Inicio" id="feIn" data-date-format="yyyy-mm-dd" onclick="$('#feIn').datepicker('show');" required>
+                </div>
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                    <label>Fecha fin</label>
+                    <input type="text" class="form-control" name="feFn" placeholder="Fecha Fin" id="feFn" data-date-format="yyyy-mm-dd" onclick="$('#feFn').datepicker('show');" required>
+
+                    <label>Tipo Negocio</label>
+                    <select class="form-control" name="tpo" required>
+                        @foreach (var dato in ViewBag.tipos)
+                        {
+                            <option value="@dato.idTipo"> @dato.descripcion </option>
+                        }
+                    </select>
+                    <label>Cliente</label><br />
+                    <select class="selectpicker" data-live-search="true" name="cli" required>
+                        @foreach (var dato in ViewBag.clientes)
+                        {
+                            <option value="@dato.idCliente"> @dato.nombres @dato.primerApellido @dato.segundoApellido </option>
+                        }
+                    </select>
+                    <br /><br />
+                    <button type="submit" class="btn btn-default">Guardar Negocio</button>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>

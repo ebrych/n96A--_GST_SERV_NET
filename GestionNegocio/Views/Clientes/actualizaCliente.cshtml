@@ -1,0 +1,106 @@
+﻿
+@{
+    string selectedA;
+    string selectedB;
+    string selectAct = "";
+    string selectDes = "";
+    if (ViewBag.cliente.estado.idEstado == 0)
+    {
+        selectAct = " ";
+        selectDes = "selected";
+    }
+    else
+    {
+        selectAct = "selected";
+        selectDes = " ";
+    }
+}
+<!-- contenido -->
+<nav class="navbar navbar-default" style="margin-top: 0px">
+    <div class="container">
+        <ul class="nav navbar-nav" id="barLeft">
+            <li><a href="/Home/Panel" onclick="loadPage();"><i class="fas fa-columns"></i> Panel Principal</a></li>
+            <li><a href="/Clientes" onclick="loadPage();"><i class="fas fa-arrow-alt-circle-left"></i> Regresar Clientes</a></li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+            <li align="right" id="btnHide"><a href="#" onclick="hideBarLeft()"><i class="fas fa-sort-up"></i> Ocultar </a></li>
+            <li align="right" id="btnShow" style="display:none"><a href="#" onclick="showBarLeft()"><i class="fas fa-sort-down"></i> Mostrar </a></li>
+        </ul>
+    </div>
+</nav>
+
+
+
+<div class="container">
+    <div class="panel panel-default">
+        <div class="panel-heading"><i class="fas fa-edit"></i> Actualizar Datos</div>
+        <div class="panel-body">
+            <form action="/Clientes/actualizaDatoCliente" method="post" onsubmit="loadPage()" data-toggle="validator">
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                    <input type="text" class="form-control" name="id" value="@ViewBag.cliente.idCliente" style="display:none" required>
+                    <label>Nombres</label>
+                    <input type="text" class="form-control" name="nom" value="@ViewBag.cliente.nombres" required>
+                    <label>Primer Apellido</label>
+                    <input type="text" class="form-control" name="priAp" value="@ViewBag.cliente.primerApellido">
+                    <label>Segundo Apellido</label>
+                    <input type="text" class="form-control" name="segAp" value="@ViewBag.cliente.segundoApellido">
+                    <label>Tipo de Documento</label>
+                    <select class="form-control" name="tpoDoc" required>
+                        @foreach (var dato in ViewBag.tipoDocumento)
+                        {
+                            if (dato.idTipo == ViewBag.cliente.tipoDocumento.idTipo)
+                            {
+                                selectedA = "selected";
+                            }
+                            else
+                            {
+                                selectedA = "";
+                            }
+                            <option value="@dato.idTipo" @selectedA> @dato.descripcion </option>
+                        }
+                    </select>
+                    <label>Número de documento</label>
+                    <input type="text" class="form-control" name="nroDoc" value="@ViewBag.cliente.numeroDocumento" pattern="^[_0-9]{1,}$" required>
+                </div>
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                    <label>Teléfono</label>
+                    <input type="text" class="form-control" name="telf" value="@ViewBag.cliente.telefono" pattern="^[_0-9]{1,}$" required>
+                    <label>Celular</label>
+                    <input type="text" class="form-control" name="cel" value="@ViewBag.cliente.celular" pattern="^[_0-9]{1,}$" required>
+                    <label>Dirección</label>
+                    <input type="text" class="form-control" name="dir" value="@ViewBag.cliente.direccion" required>
+                    <label>Mail</label>
+                    <input type="email" class="form-control" name="mail" value="@ViewBag.cliente.mail" required>
+                    <label>Tipo Cliente</label>
+                    <select class="form-control" name="tpo" required>
+                        @foreach (var dato in ViewBag.tipoCliente)
+                        {
+                            if (dato.idTipo == ViewBag.cliente.tipo.idTipo)
+                            {
+                                selectedB = "selected";
+                            }
+                            else
+                            {
+                                selectedB = "";
+                            }
+                            <option value="@dato.idTipo" @selectedB> @dato.descripcion </option>
+                        }
+                    </select>
+                    <label>Estado</label>
+                    <label>Estado</label>
+                    <select class="form-control" name="estado">
+                        <option value="1" @selectAct>Activo</option>
+                        <option value="0" @selectDes>Inactivo</option>
+                    </select>
+                    <br />
+                    <button type="submit" class="btn btn-default">Guardar Datos del Cliente</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
+
+

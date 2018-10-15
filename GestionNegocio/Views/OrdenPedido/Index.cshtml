@@ -1,0 +1,81 @@
+﻿@{
+    int i = 1;
+}
+<!-- contenido -->
+<nav class="navbar navbar-default" style="margin-top: 0px">
+    <div class="container">
+        <ul class="nav navbar-nav" id="barLeft">
+            <li><a href="/Panel" onclick="loadPage();"><i class="fas fa-columns"></i> Panel Principal</a></li>
+            <li><a href="/OrdenPedido/nuevoOrdenPedido" onclick="loadPage();"><i class="fas fa-plus-circle"></i> Agregar nuevo Orden Pedido</a></li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+            <li align="right" id="btnHide"><a href="#" onclick="hideBarLeft()"><i class="fas fa-sort-up"></i> Ocultar </a></li>
+            <li align="right" id="btnShow" style="display:none"><a href="#" onclick="showBarLeft()"><i class="fas fa-sort-down"></i> Mostrar </a></li>
+        </ul>
+    </div>
+</nav>
+
+<div class="container">
+    <div class="panel panel-default">
+        <div class="panel-heading"><i class="fas fa-clipboard-list"></i> Lista de Elementos</div>
+        <div class="panel-body">
+
+            <div id="OrdenPedido">
+                <div class="row">
+                    <div class="form-inline" align="right"><label style="color:#636e72"> <i class="fas fa-search"></i> Filtrar: &nbsp;&nbsp;</label><input class="search form-control" placeholder="Busqueda en la lista" style="width:90%" /></div>
+                    <br />
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th># <button class="sort" data-sort="num" style="background-color:transparent;border:0px"><span class="glyphicon glyphicon-sort" style="font-size:12px" aria-hidden="true"></span></button></th>
+                                    <th>descripcion</th>
+                                    <th>Negocio</th>
+                                    <th>Solicita</th>
+                                    <th>Responde</th>
+                                    <th>Estado</th>
+                                    <th>Fecha Registro</th>
+                                    <th>Fecha Respuesta</th>
+                                    <th>Detalle</th>
+                                    <th>Actualizar</th>
+                                    
+                                </tr>
+                            </thead>
+                            <tbody class="list">
+                                @foreach (var dato in ViewBag.ordenPedido)
+                                {
+                                    <tr>
+                                        <td class="num">@i</td> 
+                                        <td class="desc">@dato.descripcion</td>
+                                        <td class="neg">@dato.negocio.nombre</td>
+                                        <td >@dato.usuarioSolicita.nombres</td>
+                                        <td>@dato.usuarioRespuesta.nombres</td>   
+                                        <td class="est">@dato.estado.descripcion</td>
+                                        <td class="feReg">@dato.fechaRegistro</td>
+                                        <td class="feRes">@dato.fechaCambioEstado</td>
+                                        <td><a class="btn btn-default" href="/OrdenPedido/DetalleOrdenPedido/?idt=@dato.idOrdenPedido " role="button"> <i class="fas fa-paste"></i> </a></td>
+                                        <td><a class="btn btn-default" href="/OrdenPedido/ActualizarOrdenPedido/?idt=@dato.idOrdenPedido" role="button"> <i class="fas fa-pencil-alt"></i> </a></td>
+                                    </tr>
+                                    i++;
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                    <div align="right"><ul class="pagination"></ul></div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script>
+    var options = {
+        valueNames: ['num', 'desc', 'neg', 'est', 'feReg', 'feRes'],
+        page: 10,
+        pagination: true
+    };
+    var userList = new List('OrdenPedido', options);
+</script>
+
+

@@ -1,0 +1,69 @@
+﻿
+@{
+    int i = 1;
+}
+
+<!-- contenido -->
+<nav class="navbar navbar-default" style="margin-top: 0px">
+    <div class="container">
+        <ul class="nav navbar-nav" id="barLeft">
+            <li><a href="/Panel" onclick="loadPage();"><i class="fas fa-columns"></i> Panel Principal</a></li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+            <li align="right" id="btnHide"><a href="#" onclick="hideBarLeft()"><i class="fas fa-sort-up"></i> Ocultar </a></li>
+            <li align="right" id="btnShow" style="display:none"><a href="#" onclick="showBarLeft()"><i class="fas fa-sort-down"></i> Mostrar </a></li>
+        </ul>
+    </div>
+</nav>
+
+<div class="container">
+    <div class="panel panel-default">
+        <div class="panel-heading"><i class="fas fa-clipboard-list"></i> Lista de Usuarios</div>
+        <div class="panel-body">
+
+            <div id="Usuarios">
+                <div class="form-inline" align="right"><label style="color:#636e72"> <i class="fas fa-search"></i> Filtrar: &nbsp;&nbsp;</label><input class="search form-control" placeholder="Busqueda en la lista" style="width:90%" /></div>
+                <br />
+                <div class="table-responsive">
+                    <table id="table_Usuarios" class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th># <button class="sort" data-sort="num" style="background-color:transparent;border:0px"><span class="glyphicon glyphicon-sort" style="font-size:12px" aria-hidden="true"></span></button></th>
+                                <th>Nombre Del Usuario <button class="sort" data-sort="nom" style="background-color:transparent;border:0px"><span class="glyphicon glyphicon-sort" style="font-size:12px" aria-hidden="true"></span></button></th>
+                                <th>Rol <button class="sort" data-sort="rol" style="background-color:transparent;border:0px"><span class="glyphicon glyphicon-sort" style="font-size:12px" aria-hidden="true"></span></button></th>
+                                <th>Email</th>
+                                <th><center>Actualizar</center></th>
+                                
+                            </tr>
+                        </thead>
+                        <tbody class="list">
+                            @foreach (var dato in ViewBag.listaUsuarios)
+                            {
+                                <tr>
+                                    <td class="num">@i</td>
+                                    <td class="nom">@dato.nombres</td>
+                                    <td class="rol">@dato.role.descripcion</td>
+                                    <td>@dato.mail</td>
+                                    <td>@dato.estado.descripcion</td>
+                                    <td align="center"><a class="btn btn-default" href="/Usuarios/actualizar/?ident=@dato.idUsuario " role="button" onclick="loadPage()"> <i class="fas fa-pencil-alt"></i> </a></td>
+                                </tr>
+                                i++;
+                            }
+                        </tbody>
+                    </table>
+                </div>
+                <div align="right"><ul class="pagination"></ul></div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script>
+    var options = {
+        valueNames: ['num','nom','rol'],
+		page: 10,
+        pagination: true
+    };
+    var userList = new List('Usuarios', options);
+</script>

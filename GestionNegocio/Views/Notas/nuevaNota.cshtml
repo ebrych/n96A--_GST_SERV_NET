@@ -1,0 +1,120 @@
+﻿<!-- contenido -->
+<nav class="navbar navbar-default" style="margin-top: 0px">
+    <div class="container">
+        <ul class="nav navbar-nav" id="barLeft">
+            <li><a href="/Panel" onclick="loadPage();"><i class="fas fa-columns"></i> Panel Principal</a></li>
+            <li><a href="/Notas" onclick="loadPage();"><i class="fas fa-arrow-alt-circle-left"></i> Regresar a Notas</a></li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+            <li align="right" id="btnHide"><a href="#" onclick="hideBarLeft()"><i class="fas fa-sort-up"></i> Ocultar </a></li>
+            <li align="right" id="btnShow" style="display:none"><a href="#" onclick="showBarLeft()"><i class="fas fa-sort-down"></i> Mostrar </a></li>
+        </ul>
+    </div>
+</nav>
+<div class="container">
+    <div class="panel panel-default">
+        <div class="panel-heading"><i class="fas fa-plus"></i> Agregar Nota de Pedido</div>
+        <div class="panel-body">
+            <form action="/Notas/agregarNota" method="post" onsubmit="loadPage()">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                        <label>Tipo de Nota</label>
+                        <select class="form-control" name="tipo" id="tipo" onchange="selectChng()" required>
+                            @foreach (var dato in ViewBag.tipoNota)
+                            {
+                                <option value="@dato.idTipo"> @dato.descripcion </option>
+                            }
+                        </select>
+                        <label>Almacen</label><br />
+                        <select class="selectpicker" data-live-search="true" name="almc" required>
+                            @foreach (var dato in ViewBag.almacen)
+                            {
+                                <option value="@dato.idAlmacen"> @dato.nombre </option>
+                            }
+                        </select><br />
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                        <label>Descripcion</label>
+                        <input type="text" class="form-control" name="desc" placeholder="Descripcion" required>
+                        
+                        <div id="contCompras">
+                            <label>Compras</label><br />
+                            <select class="selectpicker" data-live-search="true" name="comp" id="comp" >
+                                <option value="0"> ninguno</option>
+                                @foreach (var dato in ViewBag.compras)
+                                {
+                                    <option value="@dato.idCompra"> @dato.descripcion </option>
+                                }
+                                
+                            </select><br />
+                        </div>
+                        <div id="contNegocio" style="display:none">
+                            <label>Negocios</label><br />
+                            <select class="selectpicker" data-live-search="true" name="neg" id="neg">
+                                <option value="0"> ninguno</option>
+                                @foreach (var dato in ViewBag.negocios)
+                                {
+                                    <option value="@dato.idNegocio"> @dato.nombre </option>
+                                }
+                                
+                            </select><br />
+                        </div>
+                        <div id="contSalidas" style="display:none">
+                            <label>Salidas</label><br />
+                            <select class="selectpicker" data-live-search="true" name="sal" id="sal">
+                                <option value="0"> ninguno</option>
+                                @foreach (var dato in ViewBag.salidas)
+                                {
+                                    <option value="@dato.idNota"> @dato.descripcion </option>
+                                }
+                                
+                            </select><br />
+                        </div>
+                        <br />
+                        <button type="submit" class="btn btn-default">Guardar Nota</button>
+                    </div>
+                </div>
+            </form>
+</div>
+    </div>
+</div>
+
+
+<script>
+    valuesDefault();
+    function selectChng() {
+        var slc = document.getElementById("tipo").value
+        if (slc == "1") {
+            valuesDefault();
+            $("#contCompras").css('display', 'block');
+            $("#contNegocio").css('display', 'none');
+            $("#contSalidas").css('display', 'none');
+        } else if (slc == "2") {
+            valuesDefault();
+            $("#contCompras").css('display', 'none');
+            $("#contNegocio").css('display', 'block');
+            $("#contSalidas").css('display', 'none');
+        } else if (slc == "3") {
+            valuesDefault();
+            $("#contCompras").css('display', 'none');
+            $("#contNegocio").css('display', 'none');
+            $("#contSalidas").css('display', 'block');
+        }
+    }
+
+    function valuesDefault() {
+        document.getElementById("comp").selectedIndex = "0";
+        document.getElementById("neg").selectedIndex = "0";
+        document.getElementById("sal").selectedIndex = "0";
+    }
+
+
+
+
+    function valores() {
+        var comp = document.getElementById("comp").value;
+        var neg = document.getElementById("neg").value;
+        var sal = document.getElementById("sal").value;
+        alert(comp + "/" + neg + "/" + sal);
+    }
+</script>

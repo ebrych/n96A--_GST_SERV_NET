@@ -1,0 +1,162 @@
+﻿@{
+    string selected;
+
+    string compra = "none";
+    string negocio = "none";
+    string salida = "none";
+
+    if (ViewBag.nota.tipo.idTipo == 1)
+    {
+        compra = "block";
+    }else if (ViewBag.nota.tipo.idTipo == 2)
+    {
+        negocio = "block";
+    }else if(ViewBag.nota.tipo.idTipo == 3)
+    {
+        salida = "block";
+    }
+
+
+}
+<nav class="navbar navbar-default" style="margin-top: 0px">
+    <div class="container">
+        <ul class="nav navbar-nav" id="barLeft">
+            <li><a href="/Panel"><i class="fas fa-columns"></i> Panel Principal</a></li>
+            <li><a href="/Notas"><i class="fas fa-arrow-alt-circle-left"></i> Regresar a Notas</a></li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+            <li align="right" id="btnHide"><a href="#" onclick="hideBarLeft()"><i class="fas fa-sort-up"></i> Ocultar </a></li>
+            <li align="right" id="btnShow" style="display:none"><a href="#" onclick="showBarLeft()"><i class="fas fa-sort-down"></i> Mostrar </a></li>
+        </ul>
+    </div>
+</nav>
+<div class="container">
+    <div class="panel panel-default">
+        <div class="panel-heading"><i class="fas fa-clipboard-list"></i> Lista de Elementos</div>
+        <div class="panel-body">
+            
+            <form action="/Notas/actualizaDatoNota" method="post" onsubmit="loadPage()">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                        <input type="text" class="form-control" name="idNota" value="@ViewBag.nota.idNota" style="display:none" required>
+                        <label>Tipo de Nota</label>
+                        <select class="form-control" name="tipo" id="tipo" onchange="selectChng()" required>
+                            @foreach (var dato in ViewBag.tipoNota)
+                            {
+                                if (dato.idTipo == @ViewBag.nota.tipo.idTipo)
+                                {
+                                    selected = "selected";
+                                }
+                                else
+                                {
+                                    selected = "";
+                                }
+                                <option value="@dato.idTipo" @selected> @dato.descripcion </option>
+                            }
+                        </select>
+                        <label>Almacen</label><br />
+                        <select class="selectpicker" data-live-search="true" name="alm" required>
+                            @foreach (var dato in ViewBag.almacen)
+                            {
+                                <option value="@dato.idAlmacen"> @dato.nombre </option>
+                            }
+                            <option value="@ViewBag.nota.almacen.idAlmacen"> @ViewBag.nota.almacen.nombre </option>
+                        </select><br />
+                        
+                        <!--referencia-->
+                        <input type="text" class="form-control" name="num" id="num" value="@ViewBag.nota.referencia.idReferencia" style="display:none" required>
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                        <label>Descripcion</label>
+                        <input type="text" class="form-control" name="desc" value="@ViewBag.nota.descripcion" required>
+
+
+
+
+
+
+                        <div id="contCompras" style="display:@compra" >
+                            <label>Compras</label><br />
+                            <select class="selectpicker" data-live-search="true" name="comp" onchange="selecTipoNota(1)" id="comp">
+                                <option value="0"> default</option>
+                                @foreach (var dato in ViewBag.compras)
+                                {
+                                    <option value="@dato.idCompra"> @dato.descripcion </option>
+                                }
+
+                            </select><br />
+                        </div>
+                        <div id="contNegocio" style="display:@negocio">
+                            <label>Negocios</label><br />
+                            <select class="selectpicker" data-live-search="true" name="neg" onchange="selecTipoNota(2)" id="neg">
+                                <option value="0"> default</option>
+                                @foreach (var dato in ViewBag.negocios)
+                                {
+                                    <option value="@dato.idNegocio"> @dato.nombre </option>
+                                }
+
+                            </select><br />
+                        </div>
+                        <div id="contSalidas" style="display:@salida">
+                            <label>Salidas</label><br />
+                            <select class="selectpicker" data-live-search="true" name="sal" onchange="selecTipoNota(3)" id="sal">
+                                <option value="0"> default</option>
+                                @foreach (var dato in ViewBag.salidas)
+                                {
+                                    <option value="@dato.idNota"> @dato.descripcion </option>
+                                }
+
+                            </select><br />
+                        </div>
+                        <br />
+                        <button type="submit" class="btn btn-default">Guardar Nota</button>
+                    </div>
+                </div>
+            </form>
+</div>
+    </div>
+</div>
+
+
+<script>
+    function selectChng() {
+        var slc = document.getElementById("tipo").value;
+        if (slc == "1") {
+            valuesDefault();
+            $("#contCompras").css('display', 'block');
+            $("#contNegocio").css('display', 'none');
+            $("#contSalidas").css('display', 'none');
+        } else if (slc == "2") {
+            valuesDefault();
+            $("#contCompras").css('display', 'none');
+            $("#contNegocio").css('display', 'block');
+            $("#contSalidas").css('display', 'none');
+        } else if (slc == "3") {
+            valuesDefault();
+            $("#contCompras").css('display', 'none');
+            $("#contNegocio").css('display', 'none');
+            $("#contSalidas").css('display', 'block');
+        }
+    }
+
+    function valuesDefault() {
+        document.getElementById("comp").selectedIndex = "0";
+        document.getElementById("neg").selectedIndex = "0";
+        document.getElementById("sal").selectedIndex = "0";
+    }
+
+    function selecTipoNota(tpo) {
+        var valor = "@ViewBag.nota.referencia.idReferencia";
+
+        if (tpo == 1) {
+            valor = document.getElementById("comp").value;
+        } else if (tpo == 2) {
+            valor = document.getElementById("neg").value;
+        } else if (tpo == 3) {
+            valor = document.getElementById("sal").value;
+        } else {
+            valor;
+        }
+        document.getElementById("num").value = valor
+    }
+</script>
